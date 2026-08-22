@@ -8,6 +8,9 @@ param(
 $ErrorActionPreference = 'Stop'
 $BeginMarker = '# BEGIN Codex Usage Governor (managed)'
 $EndMarker = '# END Codex Usage Governor (managed)'
+$DataRoot = Join-Path ([Environment]::GetFolderPath('UserProfile')) '.codex\usage-governor'
+$Handler = Join-Path $DataRoot 'advisor_uri.py'
+$ProtocolKey = 'HKCU:\Software\Classes\cug'
 
 function Remove-ManagedBlock {
     param([string]$Content)
@@ -32,6 +35,7 @@ if ($Action -eq 'Remove') {
     if (Test-Path -LiteralPath $ProfilePath) {
         Set-Content -LiteralPath $ProfilePath -Value $Clean -Encoding UTF8
     }
+    if (Test-Path -LiteralPath $ProtocolKey) { Remove-Item -LiteralPath $ProtocolKey -Recurse -Force }
     "Removed Codex Usage Governor shell integration from $ProfilePath"
     exit 0
 }
@@ -73,6 +77,14 @@ if ($Parent -and -not (Test-Path -LiteralPath $Parent)) {
 }
 $NewContent = if ([string]::IsNullOrWhiteSpace($Clean)) { $Block + "`r`n" } else { $Clean.TrimEnd() + "`r`n`r`n" + $Block + "`r`n" }
 Set-Content -LiteralPath $ProfilePath -Value $NewContent -Encoding UTF8
+$Python = (Get-Command python.exe -ErrorAction Stop).Source
+New-Item -ItemType Directory -Path $DataRoot -Force | Out-Null
+Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'advisor_uri.py') -Destination $Handler -Force
+New-Item -Path $ProtocolKey -Force | Out-Null
+Set-ItemProperty -LiteralPath $ProtocolKey -Name '(default)' -Value 'URL:Codex Usage Governor'
+Set-ItemProperty -LiteralPath $ProtocolKey -Name 'URL Protocol' -Value ''
+$CommandKey = New-Item -Path (Join-Path $ProtocolKey 'shell\open\command') -Force
+Set-ItemProperty -LiteralPath $CommandKey.PSPath -Name '(default)' -Value ('"{0}" "{1}" "%1"' -f $Python, $Handler)
 $EffectivePolicy = Get-ExecutionPolicy
 if ($EffectivePolicy -eq 'Restricted') {
     Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Task Advisor"
+  short_description: "Pick a model and the right Codex tools."
+  default_prompt: "Recommend the best Codex model, reasoning level, plugins, and skills for this task."

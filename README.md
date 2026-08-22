@@ -26,6 +26,7 @@ Keep a live view open:
 
 ```powershell
 .\plugin\codex-usage-governor\scripts\cug.cmd watch
+.\plugin\codex-usage-governor\scripts\cug.cmd recommend -Task "plan a D&D character" -ExpectedOutcome "fun draft"
 ```
 
 Launch Codex with the decision bar pinned underneath it in Windows Terminal:
@@ -43,6 +44,8 @@ For the normal workflow, install the managed PowerShell integration once:
 Open a new PowerShell window after setup. Type `codex` like you usually would. Codex stays in the current tab and the Governor opens underneath it. Use `codex-raw` when you want the original CLI without the bar. Remove the shortcut with `cug.cmd shell-remove`.
 
 The bar refreshes once a minute. It shows your remaining allowance, today's use and budget, active model, pace, burn rate, and projected exhaustion or reset time.
+
+The second line recommends a model, reasoning level, and useful installed tools for the project. Click `[Apply]` and confirm to use that setup on your next Codex launch. The Advisor leans toward Luna for lighter creative or routine work, Terra for balanced implementation, and Sol when the outcome needs deeper reasoning or extra checking. Current allowance pressure can move a recommendation toward a lighter model.
 
 The Governor can't bypass, reset, or increase your account limits.
 

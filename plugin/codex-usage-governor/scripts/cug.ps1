@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Position = 0)]
-    [ValidateSet('status', 'bar', 'compact', 'today', 'week', 'history', 'watch', 'start', 'stop', 'blocks', 'codex', 'config', 'shell-install', 'shell-remove', 'shell-status')]
+    [ValidateSet('status', 'bar', 'compact', 'today', 'week', 'history', 'watch', 'start', 'stop', 'blocks', 'codex', 'config', 'recommend', 'shell-install', 'shell-remove', 'shell-status')]
     [string]$Command = 'status',
     [string]$Model = 'unspecified',
     [string]$Reasoning = 'unspecified',
@@ -11,6 +11,8 @@ param(
     [string]$Outcome = 'unrated',
     [double]$TimeSavedHours,
     [string]$Note,
+    [string]$Task,
+    [string]$ExpectedOutcome,
     [int]$IntervalSeconds = 60,
     [string]$DataDir,
     [Parameter(ValueFromRemainingArguments = $true)]
@@ -20,6 +22,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $Governor = Join-Path $PSScriptRoot 'governor.py'
 $ShellInstaller = Join-Path $PSScriptRoot 'install-shell-integration.ps1'
+$Advisor = Join-Path $PSScriptRoot 'advisor.py'
 $DataDir = if ($DataDir) { $DataDir } elseif ($env:PLUGIN_DATA) { $env:PLUGIN_DATA } else { Join-Path ([Environment]::GetFolderPath('UserProfile')) '.codex\usage-governor' }
 
 function Invoke-Governor {
@@ -32,6 +35,10 @@ switch ($Command) {
     'shell-install' { & $ShellInstaller Install }
     'shell-remove'  { & $ShellInstaller Remove }
     'shell-status'  { & $ShellInstaller Status }
+    'recommend' {
+        Invoke-Governor @('collect')
+        & python $Advisor --data-dir $DataDir --project (Get-Location).Path --task $Task --outcome $ExpectedOutcome
+    }
     'status'  { Invoke-Governor @('collect'); Invoke-Governor @('report', 'status') }
     'compact' { Invoke-Governor @('collect'); Invoke-Governor @('report', 'compact') }
     'bar' {
@@ -40,6 +47,7 @@ switch ($Command) {
             & python $Governor --data-dir $DataDir collect *> $null
             [Console]::SetCursorPosition(0, 0)
             & python $Governor --data-dir $DataDir report bar
+            & python $Advisor --data-dir $DataDir --project (Get-Location).Path --bar
             $width = [Math]::Max(1, $Host.UI.RawUI.WindowSize.Width - 1)
             Write-Host (' ' * $width) -NoNewline
             Start-Sleep -Seconds ([Math]::Max(30, $IntervalSeconds))
