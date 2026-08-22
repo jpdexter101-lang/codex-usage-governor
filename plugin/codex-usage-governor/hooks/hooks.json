@@ -1,0 +1,31 @@
+{
+  "description": "Collect privacy-minimal Codex rate-limit readings for the usage governor.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/scripts/governor.py\" --data-dir \"$PLUGIN_DATA\" init",
+            "commandWindows": "python \"%PLUGIN_ROOT%\\scripts\\governor.py\" --data-dir \"%PLUGIN_DATA%\" init",
+            "timeout": 10,
+            "statusMessage": "Starting Codex Usage Governor"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/scripts/governor.py\" --data-dir \"$PLUGIN_DATA\" hook",
+            "commandWindows": "python \"%PLUGIN_ROOT%\\scripts\\governor.py\" --data-dir \"%PLUGIN_DATA%\" hook",
+            "timeout": 10,
+            "statusMessage": "Updating usage pace"
+          }
+        ]
+      }
+    ]
+  }
+}

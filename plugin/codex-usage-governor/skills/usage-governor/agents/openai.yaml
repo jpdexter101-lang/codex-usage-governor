@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Usage Governor"
+  short_description: "Track sustainable Codex usage and runway"
+  default_prompt: "Use $usage-governor to show my current Codex usage pace and remaining runway."

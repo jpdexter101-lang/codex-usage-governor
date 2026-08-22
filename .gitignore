@@ -1,0 +1,23 @@
+# Personal usage telemetry and experiments
+metrics/
+EXPERIMENT.md
+.hook-test-data/
+.test-data/
+.local-data/
+Images/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local secrets and environment
+.env
+.env.*
+*.log

@@ -1,0 +1,25 @@
+{
+  "name": "codex-usage-governor",
+  "version": "0.2.0+codex.20260822065508",
+  "description": "Advisory Codex usage budgeting, pacing, and runway forecasts",
+  "author": {
+    "name": "jpdex"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Codex Usage Governor",
+    "shortDescription": "Track sustainable Codex usage and runway.",
+    "longDescription": "Monitor Codex account usage against reset windows, estimate sustainable pace, and project working runway without blocking work.",
+    "developerName": "jpdex",
+    "category": "Productivity",
+    "capabilities": [
+      "Usage analysis",
+      "Local history",
+      "Runway forecasting"
+    ],
+    "defaultPrompt": [
+      "Show my current Codex usage pace and runway.",
+      "Will my Codex allowance last through today's work?"
+    ]
+  }
+}
