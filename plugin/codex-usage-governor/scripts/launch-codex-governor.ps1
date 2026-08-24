@@ -2,6 +2,7 @@
 param(
     [string]$WorkingDirectory = (Get-Location).Path,
     [int]$RefreshSeconds = 60,
+    [switch]$SkipGovernorPane,
     [Parameter(ValueFromRemainingArguments = $true)]
     [string[]]$CodexArguments
 )
@@ -34,7 +35,9 @@ $GovernorPaneArguments = @(
 )
 
 if ($env:WT_SESSION) {
-    & wt.exe @GovernorPaneArguments
+    if (-not $SkipGovernorPane) {
+        & wt.exe @GovernorPaneArguments
+    }
     & $Codex @EffectiveCodexArguments
 } else {
     $NewWindowArguments = @(

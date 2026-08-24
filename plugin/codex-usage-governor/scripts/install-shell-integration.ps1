@@ -66,7 +66,13 @@ function codex-raw {
 
 function codex {
     $launcher = Find-CodexGovernorLauncher
-    & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File $launcher -WorkingDirectory (Get-Location).Path @args
+    $launcherArguments = @('-WorkingDirectory', (Get-Location).Path)
+    if ($global:CodexGovernorPaneStarted) {
+        $launcherArguments += '-SkipGovernorPane'
+    } else {
+        $global:CodexGovernorPaneStarted = $true
+    }
+    & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File $launcher @launcherArguments @args
 }
 # END Codex Usage Governor (managed)
 '@
