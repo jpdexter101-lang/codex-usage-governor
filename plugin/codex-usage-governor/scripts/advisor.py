@@ -88,11 +88,13 @@ def recommend(status: dict | None, project: Path, task: str, outcome: str, tools
     pressure = status.get("status") if status else None
     remaining = float(status.get("remaining_percent", 100)) if status else 100
     if pressure == "RED" or remaining < 25:
+        original_model = model
         if model == "gpt-5.6-sol" and not high_stakes:
             model = "gpt-5.6-terra"
         elif model == "gpt-5.6-terra" and not complex_work and not high_stakes:
             model = "gpt-5.6-luna"
-        why += " Your current pace favors the lighter option."
+        if model != original_model:
+            why = f"{model.removeprefix('gpt-5.6-').title()} fits this task and preserves more allowance."
 
     matched: list[str] = []
     for keywords, candidates in TOOL_RULES:
@@ -120,10 +122,9 @@ def main() -> int:
     choice = recommend(status, Path(args.project), args.task, args.outcome, installed_tools(codex_home))
     query = urllib.parse.urlencode({"model": choice["model"], "reasoning": choice["reasoning"], "plugins": ",".join(choice["install"])})
     link = f"cug://apply?{query}"
-    tools_text = "+".join(choice["tools"]) if choice["tools"] else "no extra tools"
     if args.bar:
         apply_link = f"\033]8;;{link}\033\\[Apply]\033]8;;\033\\"
-        print(f"Advisor {choice['model'].removeprefix('gpt-5.6-').title()}/{choice['reasoning']} | {choice['why']} | Use {tools_text} | {apply_link}")
+        print(f"Advisor {choice['model'].removeprefix('gpt-5.6-').title()}/{choice['reasoning']} | {apply_link}", end="", flush=True)
     else:
         print(json.dumps({**choice, "apply_uri": link}, indent=2))
     return 0

@@ -45,11 +45,10 @@ switch ($Command) {
         $Host.UI.RawUI.WindowTitle = 'Codex Usage Governor'
         do {
             & python $Governor --data-dir $DataDir collect *> $null
-            [Console]::SetCursorPosition(0, 0)
+            $Escape = [char]27
+            Write-Host "$Escape[2J$Escape[H" -NoNewline
             & python $Governor --data-dir $DataDir report bar
             & python $Advisor --data-dir $DataDir --project (Get-Location).Path --bar
-            $width = [Math]::Max(1, $Host.UI.RawUI.WindowSize.Width - 1)
-            Write-Host (' ' * $width) -NoNewline
             Start-Sleep -Seconds ([Math]::Max(30, $IntervalSeconds))
         } while ($true)
     }

@@ -29,6 +29,13 @@ class AdvisorTests(unittest.TestCase):
         self.assertIn("ui-ux-pro-max@ui-ux-pro-max-skill", choice["install"])
         self.assertIn("browser@openai-bundled", choice["install"])
 
+    def test_pressure_downgrade_explanation_matches_model(self):
+        status = {"status": "RED", "remaining_percent": 70}
+        choice = advisor.recommend(status, Path("utility"), "routine project task", "working draft", set())
+        self.assertEqual("gpt-5.6-luna", choice["model"])
+        self.assertIn("Luna", choice["why"])
+        self.assertNotIn("Terra", choice["why"])
+
 
 if __name__ == "__main__":
     unittest.main()

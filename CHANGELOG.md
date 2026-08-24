@@ -4,6 +4,8 @@
 
 - Added a Task Advisor that recommends Sol, Terra, or Luna plus reasoning effort from project type, task complexity, expected outcome, and allowance pressure.
 - Added clickable, confirmed Apply links for future launch settings and missing plugin installation.
+- Kept the pinned Advisor line compact: model, reasoning, and Apply only.
+- Fixed refresh scrolling that left repeated usage rows and stale Advisor text in the pane.
 
 - Made Codex App Server `account/rateLimits/read` the primary authoritative collector.
 - Retained session JSONL parsing as a compatibility fallback.
