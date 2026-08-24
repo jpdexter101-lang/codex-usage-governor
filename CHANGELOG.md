@@ -7,6 +7,8 @@
 - Kept the pinned Advisor line compact: model, reasoning, and Apply only.
 - Fixed refresh scrolling that left repeated usage rows and stale Advisor text in the pane.
 - Prevented duplicate Governor panes after Codex updates or profile reloads with a per-terminal single-instance lock.
+- Moved the live bar to a durable runtime so plugin cache cleanup cannot break an open pane.
+- Cleared the pane scrollback on refresh so old readings do not accumulate behind the current two lines.
 
 - Made Codex App Server `account/rateLimits/read` the primary authoritative collector.
 - Retained session JSONL parsing as a compatibility fallback.

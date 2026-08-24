@@ -9,6 +9,7 @@ $ErrorActionPreference = 'Stop'
 $BeginMarker = '# BEGIN Codex Usage Governor (managed)'
 $EndMarker = '# END Codex Usage Governor (managed)'
 $DataRoot = Join-Path ([Environment]::GetFolderPath('UserProfile')) '.codex\usage-governor'
+$RuntimeRoot = Join-Path $DataRoot 'runtime'
 $Handler = Join-Path $DataRoot 'advisor_uri.py'
 $ProtocolKey = 'HKCU:\Software\Classes\cug'
 
@@ -43,20 +44,9 @@ if ($Action -eq 'Remove') {
 $Block = @'
 # BEGIN Codex Usage Governor (managed)
 function Find-CodexGovernorLauncher {
-    $roots = @(
-        (Join-Path $HOME 'plugins\codex-usage-governor\scripts'),
-        (Join-Path $HOME '.codex\plugins\cache')
-    )
-    $launchers = @()
-    if (Test-Path -LiteralPath $roots[0]) {
-        $launchers += Get-Item -LiteralPath (Join-Path $roots[0] 'launch-codex-governor.ps1') -ErrorAction SilentlyContinue
-    }
-    if (Test-Path -LiteralPath $roots[1]) {
-        $launchers += Get-ChildItem -LiteralPath $roots[1] -Filter 'launch-codex-governor.ps1' -File -Recurse -ErrorAction SilentlyContinue
-    }
-    $launcher = $launchers | Sort-Object LastWriteTimeUtc -Descending | Select-Object -First 1
-    if (-not $launcher) { throw 'Codex Usage Governor launcher was not found. Reinstall the plugin or remove its shell integration.' }
-    $launcher.FullName
+    $launcher = Join-Path $HOME '.codex\usage-governor\runtime\launch-codex-governor.ps1'
+    if (-not (Test-Path -LiteralPath $launcher)) { throw 'Codex Usage Governor runtime was not found. Reinstall the plugin or remove its shell integration.' }
+    $launcher
 }
 
 function codex-raw {
@@ -85,6 +75,8 @@ $NewContent = if ([string]::IsNullOrWhiteSpace($Clean)) { $Block + "`r`n" } else
 Set-Content -LiteralPath $ProfilePath -Value $NewContent -Encoding UTF8
 $Python = (Get-Command python.exe -ErrorAction Stop).Source
 New-Item -ItemType Directory -Path $DataRoot -Force | Out-Null
+New-Item -ItemType Directory -Path $RuntimeRoot -Force | Out-Null
+Get-ChildItem -LiteralPath $PSScriptRoot -File | Copy-Item -Destination $RuntimeRoot -Force
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'advisor_uri.py') -Destination $Handler -Force
 New-Item -Path $ProtocolKey -Force | Out-Null
 Set-ItemProperty -LiteralPath $ProtocolKey -Name '(default)' -Value 'URL:Codex Usage Governor'

@@ -55,7 +55,8 @@ switch ($Command) {
             do {
                 & python $Governor --data-dir $DataDir collect *> $null
                 $Escape = [char]27
-                Write-Host "$Escape[2J$Escape[H" -NoNewline
+                # Clear both the visible pane and its scrollback so refreshes never pile up.
+                Write-Host "$Escape[3J$Escape[2J$Escape[H" -NoNewline
                 & python $Governor --data-dir $DataDir report bar
                 & python $Advisor --data-dir $DataDir --project (Get-Location).Path --bar
                 Start-Sleep -Seconds ([Math]::Max(30, $IntervalSeconds))
