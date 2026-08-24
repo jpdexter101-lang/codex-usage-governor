@@ -42,7 +42,7 @@ When multiple structured windows are present, choose the longest window with `li
 
 ## ADR-007 — Defer comparative model advice
 
-**Status:** Accepted
+**Status:** Superseded by ADR-010
 
 Record the active model, but do not claim that switching models will extend subscription runway until local evidence demonstrates how model selection affects the same allowance meter. This avoids importing Anthropic pricing assumptions into Codex.
 
@@ -57,3 +57,21 @@ Use the documented Codex App Server `account/rateLimits/read` method as the prim
 **Status:** Accepted
 
 The account meter does not attribute each percentage increment to an individual model or task. Capture allowance readings around user-labeled work blocks and record model, reasoning effort, workflow category, outcome, and estimated time saved. Treat these labels as user-supplied and require repeated samples before recommending a model or subscription tier.
+
+## ADR-010: Separate workload advice from personal efficiency claims
+
+**Status:** Accepted
+
+Recommend Sol, Terra, or Luna from official model roles, task complexity, expected outcome, project signals, and current allowance pressure. Describe these choices as workload-fit advice. Reserve personal efficiency claims for repeated labeled work blocks with recorded outcomes.
+
+## ADR-011: Require confirmation before applying recommendations
+
+**Status:** Accepted
+
+Render `[Apply]` as an OSC 8 terminal link to a local `cug://` handler. Accept allowlisted model IDs and reasoning levels plus validated plugin IDs. Show the user the full change and require confirmation before writing a launch preference or installing a plugin. Apply model changes on the next Codex launch.
+
+## ADR-012: Keep task text out of storage
+
+**Status:** Accepted
+
+Pass a short task and outcome summary to the Advisor for the current calculation. Do not write that text to history, configuration, work blocks, or logs. Persist the selected model and reasoning level only after the user approves the Apply action.

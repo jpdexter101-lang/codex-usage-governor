@@ -2,7 +2,7 @@
 
 ## Status
 
-PowerShell-first 0.2.0 collector implemented and live-tested; installation and extended work-block sampling are next.
+PowerShell-first 0.2.0 public beta installed, live-tested, and published. The Task Advisor and clickable Apply flow work locally.
 
 ## Created
 
@@ -14,10 +14,16 @@ PowerShell-first 0.2.0 collector implemented and live-tested; installation and e
 - Privacy-minimal append-only history
 - Sustainable-rate and burn-rate reporting engine
 - Session-start and stop hooks
-- Five automated tests
+- Nine automated tests
 - Authoritative Codex App Server collector
 - PowerShell `cug` status, watch, launcher, and labeled-work commands
 - Post-earned-reset experiment baseline and runtime history
+- Same-tab Windows Terminal launcher with a pinned two-line pane
+- Managed `codex` and `codex-raw` PowerShell functions
+- Project-aware and task-aware model recommendations
+- Installed skill and plugin suggestions
+- Confirmed `cug://` Apply links for launch settings and plugin installation
+- Public GitHub repository at `jpdexter101-lang/codex-usage-governor`
 
 ## Confirmed Codex capabilities
 
@@ -34,15 +40,19 @@ PowerShell-first 0.2.0 collector implemented and live-tested; installation and e
 - Stored rows contain no prompt or response fields.
 - Codex CLI 0.149.0 App Server returned the live Plus allowance through `account/rateLimits/read`.
 - The Windows launcher reported movement from 1% at the post-reset baseline to 3% during implementation.
-- Six automated tests pass, including normalization of the documented App Server response.
+- Nine automated tests pass, including App Server normalization and Advisor decisions.
+- A D&D planning task recommends Luna with friendly allowance guidance.
+- A production payment migration keeps Sol/high under allowance pressure.
+- The registered Apply handler saved a Luna/medium next-launch preference during the live click test.
 
 ## Open technical risks
 
 - App Server is still exposed through an experimental CLI command, so protocol changes remain a compatibility risk.
 - Only the currently observed Plus-plan weekly window has been exercised live; secondary windows and other plans need fixtures or live samples.
-- Comparative model advice is deferred until there is defensible evidence that model changes correlate with the same allowance meter.
+- Task recommendations use workload fit and current pressure. Personalized model-value claims still need labeled work-block evidence.
 - Official plugin validators cannot run in the current Python environment until their `PyYAML` dependency is available.
+- Codex must start a new session to load a changed model or a newly installed plugin.
 
 ## Next action
 
-Create or connect a local marketplace entry, install and trust the plugin hooks, then collect labeled work blocks across models and reasoning levels.
+Collect labeled work blocks across Sol, Terra, and Luna. Use the results to tune recommendations around accepted outcomes and allowance cost.

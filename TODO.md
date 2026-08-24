@@ -22,23 +22,36 @@
 
 - [x] Implement lifecycle hooks.
 - [x] Implement status, today, week, history, and config commands.
-- [ ] Implement explicit work-horizon commands.
-- [ ] Add optional status-line integration where supported.
+- [x] Implement explicit work-block commands.
+- [x] Add the supported native rate-limit fields to the Codex status line.
 - [ ] Validate Windows, macOS, and Linux paths.
 
 ## Milestone 3A — PowerShell workflow
 
 - [x] Add a `cug` PowerShell command with compact, status, today, week, and watch views.
 - [x] Add a `cug codex` launcher that captures before/after allowance readings.
-- [ ] Add optional Windows Terminal title and PowerShell prompt summaries.
+- [x] Add a pinned Windows Terminal Governor pane.
+- [x] Make `codex` launch the Governor in the current tab.
 - [ ] Cache live readings briefly so prompt rendering does not repeatedly start App Server.
 - [x] Record model, reasoning effort, workflow label, and accepted outcome around work blocks.
+
+## Milestone 3B: Task Advisor
+
+- [x] Recommend Sol, Terra, or Luna from task complexity and expected outcome.
+- [x] Adjust recommendations when allowance pace runs high.
+- [x] Suggest matching installed skills and plugins.
+- [x] Offer known missing plugins through a confirmed Apply action.
+- [x] Save model and reasoning preferences for the next Codex launch.
+- [x] Register and remove the local `cug://` handler through shell setup.
+- [ ] Learn from repeated labeled work-block outcomes.
+- [ ] Add a compact explanation view for narrow terminal panes.
 
 ## Milestone 4 — Product hardening
 
 - [ ] Test multiple concurrent Codex sessions.
 - [ ] Verify history never stores prompt or code content.
-- [ ] Document installation and removal.
-- [ ] Package and validate the plugin.
-- [ ] Add a model advisor only after model-to-meter behavior is evidence-backed.
+- [x] Document installation and removal.
+- [x] Package and install the plugin through the personal marketplace.
+- [x] Add a workload-fit model advisor with clear limits on personalized claims.
+- [x] Publish the public beta on GitHub.
 - [ ] Produce Plus-versus-Pro and Codex-versus-Claude monthly decision reports.
