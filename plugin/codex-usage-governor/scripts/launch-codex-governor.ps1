@@ -24,6 +24,20 @@ if (Test-Path -LiteralPath $PreferencePath) {
     } catch { }
 }
 $EffectiveCodexArguments = $RecommendedArguments + $CodexArguments
+$GovernorSessionId = if ($env:WT_SESSION) { $env:WT_SESSION -replace '[^A-Za-z0-9]', '' } else { 'Standalone' }
+$GovernorMutexName = "Local\CodexUsageGovernorBar_$GovernorSessionId"
+
+function Test-GovernorPaneRunning {
+    try {
+        $mutex = [Threading.Mutex]::OpenExisting($GovernorMutexName)
+        $mutex.Dispose()
+        return $true
+    } catch [Threading.WaitHandleCannotBeOpenedException] {
+        return $false
+    } catch {
+        return $false
+    }
+}
 
 $GovernorPaneArguments = @(
     '-w', '0',
@@ -35,7 +49,7 @@ $GovernorPaneArguments = @(
 )
 
 if ($env:WT_SESSION) {
-    if (-not $SkipGovernorPane) {
+    if (-not $SkipGovernorPane -and -not (Test-GovernorPaneRunning)) {
         & wt.exe @GovernorPaneArguments
     }
     & $Codex @EffectiveCodexArguments

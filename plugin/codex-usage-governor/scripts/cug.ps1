@@ -42,15 +42,27 @@ switch ($Command) {
     'status'  { Invoke-Governor @('collect'); Invoke-Governor @('report', 'status') }
     'compact' { Invoke-Governor @('collect'); Invoke-Governor @('report', 'compact') }
     'bar' {
+        $GovernorSessionId = if ($env:WT_SESSION) { $env:WT_SESSION -replace '[^A-Za-z0-9]', '' } else { 'Standalone' }
+        $GovernorMutexName = "Local\CodexUsageGovernorBar_$GovernorSessionId"
+        $CreatedNew = $false
+        $GovernorMutex = [Threading.Mutex]::new($false, $GovernorMutexName, [ref]$CreatedNew)
+        if (-not $CreatedNew) {
+            $GovernorMutex.Dispose()
+            return
+        }
         $Host.UI.RawUI.WindowTitle = 'Codex Usage Governor'
-        do {
-            & python $Governor --data-dir $DataDir collect *> $null
-            $Escape = [char]27
-            Write-Host "$Escape[2J$Escape[H" -NoNewline
-            & python $Governor --data-dir $DataDir report bar
-            & python $Advisor --data-dir $DataDir --project (Get-Location).Path --bar
-            Start-Sleep -Seconds ([Math]::Max(30, $IntervalSeconds))
-        } while ($true)
+        try {
+            do {
+                & python $Governor --data-dir $DataDir collect *> $null
+                $Escape = [char]27
+                Write-Host "$Escape[2J$Escape[H" -NoNewline
+                & python $Governor --data-dir $DataDir report bar
+                & python $Advisor --data-dir $DataDir --project (Get-Location).Path --bar
+                Start-Sleep -Seconds ([Math]::Max(30, $IntervalSeconds))
+            } while ($true)
+        } finally {
+            $GovernorMutex.Dispose()
+        }
     }
     'today'   { Invoke-Governor @('collect'); Invoke-Governor @('report', 'today') }
     'week'    { Invoke-Governor @('collect'); Invoke-Governor @('report', 'week') }

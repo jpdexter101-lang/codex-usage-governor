@@ -6,7 +6,7 @@
 - Added clickable, confirmed Apply links for future launch settings and missing plugin installation.
 - Kept the pinned Advisor line compact: model, reasoning, and Apply only.
 - Fixed refresh scrolling that left repeated usage rows and stale Advisor text in the pane.
-- Prevented duplicate Governor panes when Codex exits for an update and the user runs `codex` again in the same PowerShell session.
+- Prevented duplicate Governor panes after Codex updates or profile reloads with a per-terminal single-instance lock.
 
 - Made Codex App Server `account/rateLimits/read` the primary authoritative collector.
 - Retained session JSONL parsing as a compatibility fallback.

@@ -1,6 +1,6 @@
 {
   "name": "codex-usage-governor",
-  "version": "0.2.0+codex.20260824082301",
+  "version": "0.2.0+codex.20260824183937",
   "description": "Advisory Codex usage budgeting, pacing, and runway forecasts",
   "author": {
     "name": "jpdex"
