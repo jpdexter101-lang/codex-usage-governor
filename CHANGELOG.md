@@ -17,7 +17,7 @@
 - Added compact reporting plus the PowerShell `cug.ps1` workflow and Windows `cug.cmd` launcher.
 - Recorded and live-verified the post-earned-reset experiment from 1% through 3% used.
 - Expanded the automated suite to six passing tests.
-- Added a Windows Terminal launcher that pins an automatically refreshing one-line decision bar below Codex.
+- Added a Windows Terminal launcher that pins an automatically refreshing two-line decision bar below Codex.
 - Added remaining allowance, daily use/budget, active model, pace status, burn rate, and exhaustion/reset guidance to the ambient bar.
 - Added managed PowerShell integration so `codex` opens the Governor in the current Windows Terminal tab, with `codex-raw` as an explicit bypass.
 

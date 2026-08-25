@@ -7,6 +7,8 @@ description: Recommend a Codex model, reasoning effort, installed plugins, and s
 
 Give the user a brief recommendation when the current model looks excessive, too weak, or misses a useful installed tool. Keep the tone friendly. Say what should work and why. Do not shame the user for spending allowance.
 
+Keep the pinned bar to `Advisor <model>/<reasoning> | [Apply]`. Put explanations and tool suggestions in the full `recommend` output.
+
 Resolve the plugin root from this skill directory. Run `python ../../scripts/advisor.py --task <current request summary> --outcome <expected result> --project <working directory>`. The script is the authority for model, reasoning, and tool names.
 
 Do not persist the user's request. The script receives it for the current calculation only. Do not switch models, install plugins, or change settings without the user's click or explicit approval.

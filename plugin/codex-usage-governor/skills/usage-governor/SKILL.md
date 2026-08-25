@@ -27,7 +27,7 @@ From the skill directory, use Python 3 with these arguments:
 - History: `python ../../scripts/governor.py collect`, then `python ../../scripts/governor.py report history`
 - Configuration: `python ../../scripts/governor.py config [key] [value]`
 - Compact PowerShell/footer view: `python ../../scripts/governor.py collect`, then `python ../../scripts/governor.py report compact`
-- Install automatic PowerShell launching: run `../../scripts/cug.cmd shell-install`. After opening a new PowerShell window, `codex` launches the governed layout and `codex-raw` launches the original CLI.
+- Install automatic PowerShell launching: run `../../scripts/cug.cmd shell-install`. Setup copies the live scripts to `~/.codex/usage-governor/runtime`, where plugin cache cleanup cannot break an open bar. Open a new PowerShell window once after setup. `codex` launches one Governor pane per Windows Terminal window, and `codex-raw` launches the original CLI.
 - Remove automatic PowerShell launching: run `../../scripts/cug.cmd shell-remove`.
 - Start a labeled work block: `python ../../scripts/governor.py work start --model <model> --reasoning <effort> --category <category> [--note <note>]`
 - Stop a work block: `python ../../scripts/governor.py work stop --outcome <accepted|partial|rework|failed> [--time-saved-hours <hours>] [--note <note>]`

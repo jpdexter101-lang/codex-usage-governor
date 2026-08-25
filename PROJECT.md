@@ -88,13 +88,15 @@ The Governor now runs as an installed personal Codex plugin and a public GitHub 
 The pinned pane uses two lines:
 
 - Account allowance, today's budget, pace, burn rate, and projected exhaustion
-- Recommended model, reasoning effort, useful tools, a short explanation, and a clickable Apply action
+- Recommended model, reasoning effort, and a clickable Apply action
 
 The Task Advisor weighs project markers, the current task, the expected outcome, and allowance pressure. It starts with OpenAI's model roles: Sol for complex professional work, Terra for balanced work, and Luna for lighter or high-volume work. High-stakes tasks keep the stronger model even when allowance runs low.
 
 Apply links use a local `cug://` handler. The handler accepts three model IDs, five reasoning levels, and valid plugin IDs. It asks for confirmation before saving launch preferences or installing a plugin. Model changes take effect on the next Codex launch.
 
-The release adds `advisor.py`, `advisor_uri.py`, the `task-advisor` skill, PowerShell protocol setup, and three Advisor tests. The full suite now has nine passing tests.
+Run `cug recommend` for the longer explanation and tool suggestions. The pinned line stays compact.
+
+The release adds `advisor.py`, `advisor_uri.py`, the `task-advisor` skill, PowerShell protocol setup, and four Advisor tests. The full suite now has ten passing tests.
 
 ## 2026-08-24: Pinned bar hardening
 
