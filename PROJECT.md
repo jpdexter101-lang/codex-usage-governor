@@ -95,3 +95,11 @@ The Task Advisor weighs project markers, the current task, the expected outcome,
 Apply links use a local `cug://` handler. The handler accepts three model IDs, five reasoning levels, and valid plugin IDs. It asks for confirmation before saving launch preferences or installing a plugin. Model changes take effect on the next Codex launch.
 
 The release adds `advisor.py`, `advisor_uri.py`, the `task-advisor` skill, PowerShell protocol setup, and three Advisor tests. The full suite now has nine passing tests.
+
+## 2026-08-24: Pinned bar hardening
+
+Codex plugin reinstalls replace old cache folders. The original bar ran from that cache, so an update could delete `governor.py` while the pane was open. The shell installer now copies the scripts into `%USERPROFILE%\.codex\usage-governor\runtime` and launches the bar from there.
+
+The bar uses a Windows mutex scoped to the current `WT_SESSION`. Re-running `codex` or reloading the PowerShell profile cannot add a second pane to the same terminal window. Separate terminal windows can still run their own bars.
+
+Each refresh clears the visible pane and its scrollback before drawing the current two lines. The full suite now has ten passing tests.

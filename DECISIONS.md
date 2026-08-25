@@ -75,3 +75,11 @@ Render `[Apply]` as an OSC 8 terminal link to a local `cug://` handler. Accept a
 **Status:** Accepted
 
 Pass a short task and outcome summary to the Advisor for the current calculation. Do not write that text to history, configuration, work blocks, or logs. Persist the selected model and reasoning level only after the user approves the Apply action.
+
+## ADR-013: Run the pinned bar from a durable shell runtime
+
+**Status:** Accepted
+
+Copy the Governor scripts into `%USERPROFILE%\.codex\usage-governor\runtime` during shell setup. Launch the pinned pane from that directory so Codex can replace plugin cache folders without breaking a running bar.
+
+Use a mutex scoped to `WT_SESSION` to allow one bar per Windows Terminal window. Clear the visible pane and scrollback before each two-line refresh.

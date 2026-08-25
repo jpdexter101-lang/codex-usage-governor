@@ -8,6 +8,7 @@ The Governor puts a small live bar under Codex in Windows Terminal:
 
 ```text
 Codex 91% left | Today 7.0/12.6% | gpt-5.6-sol | [HIGH] | 2.21%/h | out Sun 5:05 PM
+Advisor Luna/medium | [Apply]
 ```
 
 It reads the allowance data from your signed-in Codex install and keeps a small local history. It leaves your commands and model choices alone.
@@ -45,7 +46,11 @@ Open a new PowerShell window after setup. Type `codex` like you usually would. C
 
 The bar refreshes once a minute. It shows your remaining allowance, today's use and budget, active model, pace, burn rate, and projected exhaustion or reset time.
 
-The second line recommends a model, reasoning level, and useful installed tools for the project. Click `[Apply]` and confirm to use that setup on your next Codex launch. The Advisor leans toward Luna for lighter creative or routine work, Terra for balanced implementation, and Sol when the outcome needs deeper reasoning or extra checking. Current allowance pressure can move a recommendation toward a lighter model.
+The second line recommends a model and reasoning level. Click `[Apply]` and confirm to use that setup on your next Codex launch. Run `cug recommend` when you want the full explanation and tool suggestions.
+
+Shell setup copies the live bar into `%USERPROFILE%\.codex\usage-governor\runtime`. Plugin updates can replace their cache without breaking an open bar. Each Windows Terminal window gets one Governor pane, and refreshes clear old readings from the pane's scrollback.
+
+After updating the shell integration, close the old terminal once. Open PowerShell and run `codex` as usual.
 
 The Governor can't bypass, reset, or increase your account limits.
 

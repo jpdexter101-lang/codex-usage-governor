@@ -14,7 +14,7 @@ PowerShell-first 0.2.0 public beta installed, live-tested, and published. The Ta
 - Privacy-minimal append-only history
 - Sustainable-rate and burn-rate reporting engine
 - Session-start and stop hooks
-- Nine automated tests
+- Ten automated tests
 - Authoritative Codex App Server collector
 - PowerShell `cug` status, watch, launcher, and labeled-work commands
 - Post-earned-reset experiment baseline and runtime history
@@ -23,6 +23,9 @@ PowerShell-first 0.2.0 public beta installed, live-tested, and published. The Ta
 - Project-aware and task-aware model recommendations
 - Installed skill and plugin suggestions
 - Confirmed `cug://` Apply links for launch settings and plugin installation
+- Durable shell runtime outside the disposable plugin cache
+- One Governor pane per Windows Terminal window
+- Two-line refresh that clears old readings from scrollback
 - Public GitHub repository at `jpdexter101-lang/codex-usage-governor`
 
 ## Confirmed Codex capabilities
@@ -40,7 +43,7 @@ PowerShell-first 0.2.0 public beta installed, live-tested, and published. The Ta
 - Stored rows contain no prompt or response fields.
 - Codex CLI 0.149.0 App Server returned the live Plus allowance through `account/rateLimits/read`.
 - The Windows launcher reported movement from 1% at the post-reset baseline to 3% during implementation.
-- Nine automated tests pass, including App Server normalization and Advisor decisions.
+- Ten automated tests pass, including App Server normalization and Advisor decisions.
 - A D&D planning task recommends Luna with friendly allowance guidance.
 - A production payment migration keeps Sol/high under allowance pressure.
 - The registered Apply handler saved a Luna/medium next-launch preference during the live click test.
@@ -52,6 +55,7 @@ PowerShell-first 0.2.0 public beta installed, live-tested, and published. The Ta
 - Task recommendations use workload fit and current pressure. Personalized model-value claims still need labeled work-block evidence.
 - Official plugin validators cannot run in the current Python environment until their `PyYAML` dependency is available.
 - Codex must start a new session to load a changed model or a newly installed plugin.
+- Existing terminals must close once after a shell-integration upgrade so PowerShell loads the new managed function.
 
 ## Next action
 

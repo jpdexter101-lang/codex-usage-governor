@@ -32,6 +32,9 @@
 - [x] Add a `cug codex` launcher that captures before/after allowance readings.
 - [x] Add a pinned Windows Terminal Governor pane.
 - [x] Make `codex` launch the Governor in the current tab.
+- [x] Keep the live bar outside disposable plugin cache folders.
+- [x] Prevent duplicate bars within one Windows Terminal window.
+- [x] Clear old refresh output from the pane scrollback.
 - [ ] Cache live readings briefly so prompt rendering does not repeatedly start App Server.
 - [x] Record model, reasoning effort, workflow label, and accepted outcome around work blocks.
 
