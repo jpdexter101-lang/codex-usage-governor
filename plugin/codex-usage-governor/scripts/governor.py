@@ -26,6 +26,7 @@ DEFAULT_CONFIG = {
     "yellow_threshold_pct": 75.0,
     "min_burn_data_hours": 0.25,
     "ewma_half_life_hours": 0.75,
+    "orphan_bridge_threshold_hours": 1.0,
 }
 
 
@@ -243,6 +244,42 @@ def collect_app_server(timeout: float = 10.0) -> list[dict]:
         except (OSError, subprocess.TimeoutExpired):
             process.kill()
     return []
+
+
+def find_orphan_cloud_bridges(threshold_hours: float) -> list[dict]:
+    """Detect long-lived Codex cloud-environment bridge processes
+    (``codex.exe exec-server --remote ...``) that can silently keep consuming
+    usage with no interactive CLI session open to trigger a hook-based reading.
+    Born from a real incident: one of these sat open for ~69 hours unnoticed."""
+    if os.name != "nt":
+        return []
+    script = (
+        "Get-CimInstance Win32_Process | "
+        "Where-Object { $_.CommandLine -match 'exec-server' -and $_.CommandLine -match '--remote' } | "
+        "ForEach-Object { [PSCustomObject]@{ ProcessId = $_.ProcessId; "
+        "AgeHours = [math]::Round(((Get-Date) - $_.CreationDate).TotalHours, 2) } } | "
+        "ConvertTo-Json -Compress"
+    )
+    try:
+        completed = subprocess.run(
+            ["powershell", "-NoProfile", "-Command", script],
+            capture_output=True, text=True, timeout=15,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return []
+    text = (completed.stdout or "").strip()
+    if not text:
+        return []
+    try:
+        parsed = json.loads(text)
+    except json.JSONDecodeError:
+        return []
+    items = parsed if isinstance(parsed, list) else [parsed]
+    return [
+        item for item in items
+        if isinstance(item, dict) and float(item.get("AgeHours") or 0) >= threshold_hours
+    ]
 
 
 def collect_file(path: Path, model_hint: str | None = None) -> list[dict]:
@@ -649,6 +686,13 @@ def main(argv: list[str]) -> int:
         try: config[args.key] = float(args.value)
         except ValueError: print("Config values must be numeric.", file=sys.stderr); return 2
         save_json(config_path, config); print(f"{args.key} = {config[args.key]}"); return 0
+    orphans = find_orphan_cloud_bridges(float(config["orphan_bridge_threshold_hours"]))
+    if orphans:
+        detail = ", ".join(f"pid {o['ProcessId']} ({o['AgeHours']:.1f}h)" for o in orphans)
+        if args.mode == "bar":
+            print(f"\033[91m[ORPHAN CLOUD BRIDGE: {detail}]\033[0m")
+        else:
+            print(f"WARNING: long-lived Codex cloud bridge process(es) found, may be consuming usage unattended: {detail}")
     rows = read_history(history_path)
     if args.mode == "history": print_history(rows); return 0
     status = compute(rows, config)

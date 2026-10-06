@@ -2,6 +2,7 @@
 
 ## 0.2.0 — Unreleased
 
+- Added orphan cloud-bridge detection: flags long-lived `codex.exe exec-server --remote ...` processes (Codex Cloud environment bridges) that can silently keep consuming usage with no interactive CLI session open to trigger a hook-based reading. Surfaces as a red warning line above the bar/status output; threshold configurable via `orphan_bridge_threshold_hours` (default 1h). Born from a real incident: one sat open ~69 hours unnoticed after a failed task silently resumed when the usage limit reset.
 - Added a Task Advisor that recommends Sol, Terra, or Luna plus reasoning effort from project type, task complexity, expected outcome, and allowance pressure.
 - Added clickable, confirmed Apply links for future launch settings and missing plugin installation.
 - Kept the pinned Advisor line compact: model, reasoning, and Apply only.
